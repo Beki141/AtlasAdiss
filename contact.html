@@ -10,6 +10,10 @@
     <header>
         <nav>
             <div class="logo">AtlasAdiss</div>
+            <input type="checkbox" id="nav-toggle" class="nav-toggle">
+            <label for="nav-toggle" class="nav-toggle-label">
+                <span></span>
+            </label>
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="services.html">Services</a></li>
@@ -19,25 +23,59 @@
         </nav>
     </header>
 
-    <main>
-        <section class="contact" id="contact-section">
-            <h1>Contact Us</h1>
-            <p>Have questions? Reach out to us for custom quotes and general inquiries.</p>
-            <form id="contactForm" class="standard-form">
-                <div class="form-group">
-                    <label for="name">Full Name</label>
-                    <input type="text" id="name" name="name" required placeholder="Your name">
+    <main class="home-main">
+        <section class="contact-page" id="contact-section">
+            <div class="section-container">
+                <h2>Get In Touch</h2>
+                <p class="section-subtitle">We would love to hear from you. Contact us directly or send a message.</p>
+                <div id="contact-alert" class="alert hidden"></div>
+                
+                <div class="contact-grid">
+                    <!-- Business Info -->
+                    <div class="business-info-card">
+                        <h3>Business Details</h3>
+                        <div class="info-block">
+                            <strong>Phone Number:</strong>
+                            <p>Call us now: <a href="tel:+15551234567" class="text-link">+1 (555) 123-4567</a></p>
+                        </div>
+                        <div class="info-block">
+                            <strong>Service Area:</strong>
+                            <p>Georgia</p>
+                        </div>
+                        <div class="info-block">
+                            <strong>Operating Hours:</strong>
+                            <p>24/7 Availability</p>
+                        </div>
+                    </div>
+
+                    <!-- Contact Form -->
+                    <form id="contactForm" class="contact-form-premium">
+                        <div class="form-group">
+                            <label for="contactName">Full Name <span class="required">*</span></label>
+                            <input type="text" id="contactName" name="contactName" required placeholder="Enter your full name">
+                            <div class="error-msg" id="error-contactName">Name is required</div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="contactPhone">Phone <span class="required">*</span></label>
+                                <input type="tel" id="contactPhone" name="contactPhone" placeholder="Enter your phone number">
+                                <div class="error-msg" id="error-contactPhone">Phone or Email required</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="contactEmail">Email <span class="required">*</span></label>
+                                <input type="email" id="contactEmail" name="contactEmail" placeholder="Enter your email address">
+                                <div class="error-msg" id="error-contactEmail">Phone or Email required</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactMessage">Message <span class="required">*</span></label>
+                            <textarea id="contactMessage" name="contactMessage" rows="5" required placeholder="How can we help you?"></textarea>
+                            <div class="error-msg" id="error-contactMessage">Message is required</div>
+                        </div>
+                        <button type="submit" class="btn btn-submit">Send Message</button>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" required placeholder="Your email address">
-                </div>
-                <div class="form-group">
-                    <label for="message">Message</label>
-                    <textarea id="message" name="message" rows="5" required placeholder="How can we help you?"></textarea>
-                </div>
-                <button type="submit" class="btn">Send Message</button>
-            </form>
+            </div>
         </section>
     </main>
 
