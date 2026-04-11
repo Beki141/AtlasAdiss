@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking - Atladdis Transportation Service LLC</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Atladdis</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="booking.html" aria-current="page">Booking</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="booking" id="booking-section">
+            <h1>Book Your Ride</h1>
+            <p>Schedule your luxury transportation below.</p>
+            <form id="bookingForm" class="standard-form">
+                <div class="form-group">
+                    <label for="pickup">Pickup Location</label>
+                    <input type="text" id="pickup" name="pickup" required placeholder="Enter pickup address">
+                </div>
+                <div class="form-group">
+                    <label for="dropoff">Drop-off Location</label>
+                    <input type="text" id="dropoff" name="dropoff" required placeholder="Enter drop-off address">
+                </div>
+                <div class="form-group">
+                    <label for="date">Date & Time</label>
+                    <input type="datetime-local" id="date" name="date" required>
+                </div>
+                <div class="form-group">
+                    <label for="vehicle">Vehicle Preference</label>
+                    <select id="vehicle" name="vehicle">
+                        <option value="sedan">Luxury Sedan</option>
+                        <option value="suv">Premium SUV</option>
+                        <option value="limo">Stretch Limousine</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Submit Booking</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Atladdis Transportation Service LLC. All rights reserved.</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
