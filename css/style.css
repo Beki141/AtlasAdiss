@@ -231,6 +231,15 @@ footer {
     z-index: 2;
 }
 
+.hero-logo {
+    max-width: 150px;
+    height: auto;
+    margin-bottom: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
 .hero-content h1 {
     color: #fff;
     font-size: 3rem;
@@ -293,59 +302,60 @@ footer {
 .services-list-vertical {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
-    max-width: 900px;
+    max-width: 1000px;
     margin: 0 auto;
 }
 
 .service-row-card {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: wrap; /* or no wrap if we want strictly side by side */
     background: var(--bg-color);
     border-radius: 12px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.03);
-    border-left: 5px solid var(--secondary-color);
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 3rem;
+}
+
+.service-row-card:nth-child(even) {
+    flex-direction: row-reverse;
 }
 
 .service-row-card:hover {
-    transform: translateX(5px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
 }
 
-.service-left {
-    flex: 1 1 300px;
-    padding: 2.5rem;
-    background: var(--primary-color);
-    color: #fff;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+.service-img-wrap {
+    flex: 1 1 350px;
+    min-height: 350px;
 }
 
-.service-left h3 {
-    margin: 0;
-    font-size: 1.5rem;
-    color: #fff;
+.service-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-.icon-placeholder {
-    font-size: 2rem;
-}
-
-.service-right {
-    flex: 2 1 400px;
-    padding: 2.5rem;
+.service-content {
+    flex: 1 1 350px;
+    padding: 3.5rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
-.service-right p {
-    color: var(--text-light);
+.service-content h3 {
     margin-bottom: 1rem;
+    font-size: 1.8rem;
+    color: var(--primary-color);
+}
+
+.service-content p {
+    color: var(--text-light);
+    margin-bottom: 1.5rem;
     font-size: 1.1rem;
+    line-height: 1.8;
 }
 
 .text-link {
