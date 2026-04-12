@@ -219,13 +219,13 @@ footer {
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)),
         url('../assets/hero_cadillac_2021.jpg') center/cover no-repeat;
     color: #fff;
-    padding: 8rem 2rem;
+    padding: 2rem 2rem 4rem;
     text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 70vh;
+    min-height: 50vh;
 }
 
 .hero-content {
@@ -235,9 +235,10 @@ footer {
 }
 
 .hero-logo {
-    max-width: 150px;
+    width: 100%;
+    max-width: 230px;
     height: auto;
-    margin-bottom: 2.5rem;
+    margin-bottom: 1.5rem;
     border-radius: 12px;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
     border: 2px solid rgba(255, 255, 255, 0.1);
@@ -246,13 +247,13 @@ footer {
 .hero-content h1 {
     color: #fff;
     font-size: 3rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.5rem;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .hero-content p {
     font-size: 1.25rem;
-    margin-bottom: 2.5rem;
+    margin-bottom: 1.5rem;
 }
 
 .hero-buttons {
@@ -558,7 +559,7 @@ footer {
 /* --- Booking Page Specific --- */
 .booking {
     background: linear-gradient(rgba(26, 26, 26, 0.85), rgba(26, 26, 26, 0.95)),
-        url('../assets/hero_cadillac_2021.png') center/cover no-repeat fixed;
+        url('../assets/hero_cadillac_2021.jpg') center/cover no-repeat fixed;
     padding: 0;
     color: #fff;
     min-height: calc(100vh - 150px);
@@ -717,7 +718,7 @@ footer {
 /* --- Contact Page Specific --- */
 .contact-page {
     background: linear-gradient(rgba(26, 26, 26, 0.85), rgba(26, 26, 26, 0.95)),
-        url('../assets/hero_cadillac_2021.png') center/cover no-repeat fixed;
+        url('../assets/hero_cadillac_2021.jpg') center/cover no-repeat fixed;
     padding: 0;
     color: #fff;
     min-height: calc(100vh - 150px);
@@ -859,7 +860,7 @@ footer {
     }
 
     .hero-section {
-        padding: 6rem 1.5rem;
+        padding: 1.5rem 1.5rem;
     }
 
     .contact-grid,
@@ -998,7 +999,7 @@ footer {
     }
 
     .hero-logo {
-        max-width: 120px;
+        max-width: 250px;
     }
 
     /* Scale Premium Padding down for absolute visibility */
@@ -1029,4 +1030,40 @@ footer {
     border-color: var(--secondary-color);
     outline: none;
     box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.3);
+}
+
+/* =========================================
+   LANDSCAPE PHONES (Max Height 500px)
+   ========================================= */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+    .hero-section {
+        padding: 5rem 1rem 1.5rem;
+        min-height: 100vh;
+    }
+
+    .hero-logo {
+        max-width: 120px;
+        margin-bottom: 0.5rem;
+    }
+
+    .hero-content h1 {
+        font-size: 1.6rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .hero-content p {
+        font-size: 0.95rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .hero-buttons {
+        gap: 0.75rem;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .hero-buttons .btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+    }
 }
