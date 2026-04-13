@@ -140,45 +140,69 @@
             </div>
         </section>
 
-        <!-- 5. Testimonials Section -->
-        <section class="testimonials">
+        <!-- 5. Reviews Section -->
+        <section class="testimonials" id="reviews-section">
             <div class="section-container">
-                <h2>Client Testimonials</h2>
-                <p class="section-subtitle">See what our clients say about the AtlasAdiss experience.</p>
-                <div class="testimonials-grid-premium">
-                    <div class="testimonial-card-premium">
-                        <div class="quote-icon">"</div>
-                        <div class="stars">★★★★★</div>
-                        <p class="quote">Absolutely impeccable service. The chauffeur arrived 15 minutes early and the
-                            Cadillac was spotless. Will definitely use AtlasAdiss for all my future business trips.</p>
-                        <div class="client-info">
-                            <div class="client-avatar">ST</div>
-                            <div class="client-name">- Sarah T., Executive</div>
-                        </div>
+                <div class="reviews-header">
+                    <div>
+                        <h2>Client Reviews</h2>
+                        <p class="section-subtitle">Real feedback from clients who rode with AtlasAdiss.</p>
                     </div>
+                    <button id="openReviewModalBtn" class="reviews-add-btn" type="button" aria-label="Add a review">+</button>
+                </div>
+
+                <div id="reviewsGrid" class="testimonials-grid-premium" aria-live="polite">
                     <div class="testimonial-card-premium">
                         <div class="quote-icon">"</div>
                         <div class="stars">★★★★★</div>
-                        <p class="quote">We booked a limo for our anniversary dinner, and the experience was flawless
-                            from booking to drop-off. Outstanding professionalism.</p>
+                        <p class="quote">Loading reviews...</p>
                         <div class="client-info">
-                            <div class="client-avatar">MB</div>
-                            <div class="client-name">- Michael B.</div>
-                        </div>
-                    </div>
-                    <div class="testimonial-card-premium">
-                        <div class="quote-icon">"</div>
-                        <div class="stars">★★★★★</div>
-                        <p class="quote">Reliable and luxurious. Having a dependable service like AtlasAdiss takes all
-                            the stress out of our corporate travel requirements.</p>
-                        <div class="client-info">
-                            <div class="client-avatar">JC</div>
-                            <div class="client-name">- Jenkins & Co.</div>
+                            <div class="client-avatar">AA</div>
+                            <div class="client-name">- AtlasAdiss</div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+
+        <!-- Review Modal -->
+        <div id="reviewModal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="reviewModalTitle">
+            <div class="modal-card">
+                <div class="modal-header">
+                    <h3 id="reviewModalTitle">Add Your Review</h3>
+                    <button id="closeReviewModalBtn" class="modal-close" type="button" aria-label="Close">×</button>
+                </div>
+
+                <div id="review-alert" class="alert hidden"></div>
+
+                <form id="reviewForm" class="modal-form">
+                    <div class="form-group">
+                        <label for="reviewName">Name <span class="required">*</span></label>
+                        <input type="text" id="reviewName" name="reviewName" required placeholder="Your name">
+                    </div>
+                    <div class="form-group">
+                        <label for="reviewMessage">Message <span class="required">*</span></label>
+                        <textarea id="reviewMessage" name="reviewMessage" rows="5" required placeholder="Share your experience"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="reviewRatingValue">Rating <span class="required">*</span></label>
+                        <input type="hidden" id="reviewRatingValue" name="reviewRating" required>
+                        <div class="rating-picker" role="radiogroup" aria-label="Rating from 1 to 5">
+                            <button type="button" class="rating-star" data-value="1" role="radio" aria-checked="false" aria-label="1 star">★</button>
+                            <button type="button" class="rating-star" data-value="2" role="radio" aria-checked="false" aria-label="2 stars">★</button>
+                            <button type="button" class="rating-star" data-value="3" role="radio" aria-checked="false" aria-label="3 stars">★</button>
+                            <button type="button" class="rating-star" data-value="4" role="radio" aria-checked="false" aria-label="4 stars">★</button>
+                            <button type="button" class="rating-star" data-value="5" role="radio" aria-checked="false" aria-label="5 stars">★</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="reviewCode">Review Code <span class="required">*</span></label>
+                        <input type="text" id="reviewCode" name="reviewCode" required placeholder="Enter your review code">
+                    </div>
+                    <button id="reviewSubmitBtn" type="submit" class="btn btn-submit">Submit Review</button>
+                </form>
+            </div>
+        </div>
 
         <!-- 4. CTA Section -->
         <section class="cta-section">

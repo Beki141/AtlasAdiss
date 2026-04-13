@@ -9,7 +9,11 @@ const bookingSchema = new mongoose.Schema({
   date: { type: String, required: true },
   time: { type: String, required: true },
   serviceType: { type: String, required: true },
-  status: { type: String, default: "pending" }
+  status: { type: String, default: "pending" },
+
+  // Review code system (keeps review submission simple but gated)
+  reviewCodeHash: { type: String, default: null },
+  reviewCodeUsed: { type: Boolean, default: false }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Booking', bookingSchema);

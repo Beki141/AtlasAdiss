@@ -2,9 +2,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const path = require('path');
 
-// Load environment variables
-dotenv.config();
+// Load environment variables (always from backend/.env even if started from repo root)
+dotenv.config({ path: path.join(__dirname, '.env') });
 
 // Initialize app
 const app = express();
@@ -15,7 +16,10 @@ app.use(cors());
 
 // Routes
 const apiRoutes = require('./routes/api');
+const authRoutes = require('./routes/auth');
+
 app.use('/api', apiRoutes);
+app.use('/api/admin', authRoutes);
 
 // Basic Route
 app.get('/', (req, res) => {
@@ -29,6 +33,7 @@ const connectDB = async () => {
     console.log("MongoDB connected");
   } catch (error) {
     console.error(`Error connecting to MongoDB: ${error.message}`);
+    process.exit(1);
   }
 };
 

@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Atladdis</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    :root {
+      /* Match frontend theme (black + gold) */
+      --primary: var(--primary-color);
+      --accent: var(--secondary-color);
+      --accent-hover: var(--secondary-hover);
+      --success: #2ecc71;
+      --warning: #f1c40f;
+      --danger: #e74c3c;
+      --bg: var(--bg-alt);
+      --card-bg: var(--bg-color);
+      --text: var(--text-color);
+      --muted: var(--text-light);
+    }
+
+    body {
+      background-color: var(--bg);
+      margin: 0;
+      padding: 0;
+      color: var(--text);
+    }
+
+    .navbar {
+      background-color: var(--primary);
+      padding: 15px 20px;
+      color: white;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    .nav-container {
+      max-width: 1200px; 
+      margin: 0 auto; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center;
+    }
+    .nav-container h1 { margin: 0; font-size: 22px; }
+
+    .btn-logout {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.85);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.3s;
+    }
+    .btn-logout:hover { background: rgba(255,255,255,0.1); }
+
+    .container {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 15px;
+    }
+
+    /* Tab Navigation */
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      flex: 1; 
+      padding: 12px 20px;
+      border: none;
+      background: rgba(26,26,26,0.06);
+      color: var(--primary);
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 500;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
+
+    @media (min-width: 768px) {
+      .tab-btn { flex: unset; }
+    }
+
+    .tab-btn:hover { background-color: rgba(26,26,26,0.1); }
+    .tab-btn.active {
+      background-color: var(--accent);
+      color: var(--primary);
+      box-shadow: 0 4px 6px rgba(212, 175, 55, 0.35);
+    }
+
+    .badge {
+      background-color: var(--danger);
+      color: white;
+      border-radius: 12px;
+      padding: 2px 8px;
+      font-size: 12px;
+      font-weight: bold;
+      display: none;
+    }
+
+    /* Sections */
+    .section { display: none; }
+    .section.active { display: block; animation: fadeIn 0.4s; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive Card Grid */
+    .card-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+    @media (min-width: 768px) { .card-grid { grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); } }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 22px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+      border-left: 5px solid var(--accent);
+      display: flex;
+      flex-direction: column;
+      border: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      padding-bottom: 12px;
+    }
+    .card-title { font-size: 18px; font-weight: bold; color: var(--primary); margin: 0; }
+    .card-subtitle { font-size: 13px; color: var(--muted); margin-top: 5px; }
+
+    .card-body { flex-grow: 1; }
+    .card-body p { margin: 8px 0; font-size: 14px; line-height: 1.5; }
+
+    .status { padding: 5px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; text-transform: capitalize; color: white; }
+    .status.pending { background-color: var(--warning); color: #fff; }
+    .status.confirmed { background-color: var(--accent); }
+    .status.completed { background-color: var(--success); }
+
+    .action-buttons { 
+      display: flex; 
+      gap: 10px; 
+      margin-top: auto; 
+      padding-top: 15px;
+      flex-wrap: wrap; 
+      justify-content: flex-end;
+    }
+    .btn { 
+      padding: 8px 16px; 
+      border: none; 
+      border-radius: 8px; 
+      cursor: pointer; 
+      font-size: 13px; 
+      font-weight: 600;
+      color: white; 
+      text-align: center; 
+      text-decoration: none; 
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.15s ease, opacity 0.3s ease, box-shadow 0.2s ease; 
+    }
+    .btn:hover { opacity: 0.9; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+    .btn:active { transform: translateY(1px); }
+
+    @media (max-width: 480px) {
+      .card { padding: 18px; border-radius: 12px; }
+      .action-buttons { justify-content: center; }
+      .btn { flex: 1 1 auto; min-width: 100px; }
+    }
+
+    .btn-confirm { background-color: var(--accent); color: var(--primary); }
+    .btn-complete { background-color: var(--success); }
+    .btn-gcal { background-color: #9b59b6; }
+    .btn:disabled { background-color: #bdc3c7; color: #7f8c8d; cursor: not-allowed; box-shadow: none; pointer-events: none; }
+
+    /* Icon buttons (SMS/Email/Call/GCal) */
+    .btn.icon-btn {
+      padding: 0;
+      width: 38px;
+      height: 38px;
+      min-width: 38px;
+      border-radius: 8px;
+    }
+
+    .btn.icon-btn svg { width: 18px; height: 18px; }
+
+    /* Booking actions: refined alignment */
+    .action-buttons.booking-actions {
+      border-top: 1px solid rgba(0,0,0,0.06);
+    }
+    .action-buttons.booking-actions .btn {
+      border: 1px solid rgba(0,0,0,0.04);
+    }
+
+    /* Review code share tools */
+    .action-buttons.review-actions {
+      display: flex;
+      justify-content: flex-start;
+      margin-top: 10px;
+      padding-top: 0;
+    }
+
+    .date-label { background-color: var(--primary); color: white; padding: 10px 15px; border-radius: 6px; margin: 30px 0 15px 0; font-size: 18px; grid-column: 1 / -1; }
+    .loading { text-align: center; padding: 40px; color: var(--muted); font-size: 18px; grid-column: 1 / -1; }
+    .rating-stars { color: var(--warning); font-size: 16px; }
+
+    /* Highlights for new items */
+    .new-badge {
+        font-size: 10px; background: var(--danger); color: white; padding: 2px 6px; border-radius: 10px; margin-left: 8px; vertical-align: top;
+    }
+  </style>
+
+  <script>
+    // 9. FRONTEND PROTECTION
+    const token = sessionStorage.getItem('adminToken');
+    if (!token) {
+      window.location.href = 'admin-login.html';
+    }
+
+    function logout() {
+      sessionStorage.removeItem('adminToken');
+      window.location.href = 'admin-login.html';
+    }
+  </script>
+</head>
+<body>
+
+  <div class="navbar">
+    <div class="nav-container">
+        <h1>Atladdis Dashboard</h1>
+        <button onclick="logout()" class="btn-logout">Logout</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Navigation Tabs -->
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchSection('bookings', this)">
+          Bookings <span id="badge-bookings" class="badge"></span>
+      </button>
+      <button class="tab-btn" onclick="switchSection('messages', this)">
+          Messages <span id="badge-messages" class="badge"></span>
+      </button>
+      <button class="tab-btn" onclick="switchSection('reviews', this)">
+          Reviews <span id="badge-reviews" class="badge"></span>
+      </button>
+      <button class="tab-btn" onclick="switchSection('settings', this)">
+          Settings
+      </button>
+    </div>
+
+    <!-- BOOKINGS SECTION -->
+    <div id="bookings" class="section active">
+      <div id="bookings-container" class="card-grid">
+        <div class="loading">Loading bookings...</div>
+      </div>
+    </div>
+
+    <!-- MESSAGES SECTION -->
+    <div id="messages" class="section">
+      <div id="messages-container" class="card-grid">
+        <div class="loading">Loading messages...</div>
+      </div>
+    </div>
+
+    <!-- REVIEWS SECTION -->
+    <div id="reviews" class="section">
+      <div id="reviews-container" class="card-grid">
+        <div class="loading">Loading reviews...</div>
+      </div>
+    </div>
+
+    <!-- SETTINGS SECTION -->
+    <div id="settings" class="section">
+      <div class="card" style="max-width: 500px; margin: 0 auto; border-left-color: var(--primary);">
+        <div class="card-header">
+          <h3 class="card-title">Change Password</h3>
+        </div>
+        <div class="card-body">
+          <div id="pwd-alert" class="badge" style="display:none; width: 100%; box-sizing: border-box; text-align: center; padding: 10px; margin-bottom: 15px; font-size: 14px;"></div>
+          <div style="margin-bottom: 12px;">
+            <label style="display:block; font-size: 14px; font-weight: bold; margin-bottom: 4px;">Current Password</label>
+            <input type="password" id="currentPwd" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
+          </div>
+          <div style="margin-bottom: 15px;">
+            <label style="display:block; font-size: 14px; font-weight: bold; margin-bottom: 4px;">New Password</label>
+            <input type="password" id="newPwd" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
+          </div>
+          <button class="btn btn-confirm" style="width: 100%; padding: 10px; font-size: 15px;" onclick="changePassword()">Update Password</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = 'http://localhost:5000/api'; 
+    let hasLoadedGlobally = false;
+
+    // --- NOTIFICATION SYSTEM ---
+    function updateBadge(id, count) {
+      const badge = document.getElementById(id);
+      if (count > 0) {
+        badge.style.display = 'inline-block';
+        badge.textContent = count;
+      } else {
+        badge.style.display = 'none';
+      }
+    }
+
+    function isRecent(dateString) {
+      if (!dateString) return false;
+      const date = new Date(dateString);
+      const now = new Date();
+      const diffHours = (now - date) / (1000 * 60 * 60);
+      return diffHours < 24; // Treat items created in last 24h as 'new'
+    }
+
+    // --- GLOBAL LOADING TO SET BADGES ---
+    async function initNotifications() {
+        // Fetch all in background to populate bubbles
+        try {
+            const opts = { headers: { 'Authorization': `Bearer ${token}` } };
+            
+            const [bRes, mRes, rRes] = await Promise.all([
+                fetch(`${API_URL}/bookings`, opts),
+                fetch(`${API_URL}/contact`, opts),
+                fetch(`${API_URL}/reviews`, opts)
+            ]);
+
+            if (bRes.ok) {
+                const b = await bRes.json();
+                const pendingCount = b.filter(x => x.status === 'pending').length;
+                updateBadge('badge-bookings', pendingCount);
+            }
+            if (mRes.ok) {
+                const m = await mRes.json();
+                const newMsgs = m.filter(x => isRecent(x.createdAt)).length;
+                updateBadge('badge-messages', newMsgs);
+            }
+            if (rRes.ok) {
+                const r = await rRes.json();
+                const newRevs = r.filter(x => isRecent(x.createdAt)).length;
+                updateBadge('badge-reviews', newRevs);
+            }
+            hasLoadedGlobally = true;
+        } catch(e) { } // silent fail on background sync
+    }
+
+    // --- TAB SWITCHING ---
+    function switchSection(sectionId, btnElement) {
+      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      
+      document.getElementById(sectionId).classList.add('active');
+      if (btnElement) btnElement.classList.add('active');
+
+      if (sectionId === 'bookings') fetchBookings();
+      if (sectionId === 'messages') fetchMessages();
+      if (sectionId === 'reviews') fetchReviews();
+    }
+
+    // --- PASSWORD MANAGEMENT ---
+    async function changePassword() {
+        const current = document.getElementById('currentPwd').value;
+        const newP = document.getElementById('newPwd').value;
+        const alertBox = document.getElementById('pwd-alert');
+        
+        if (!current || !newP) {
+            alertBox.style.display = 'block';
+            alertBox.style.backgroundColor = 'var(--warning)';
+            alertBox.textContent = 'Please fill out both fields';
+            return;
+        }
+        
+        alertBox.style.display = 'block';
+        alertBox.style.backgroundColor = 'var(--muted)';
+        alertBox.textContent = 'Updating...';
+
+        try {
+            const res = await fetch(`${API_URL}/admin/change-password`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ currentPassword: current, newPassword: newP })
+            });
+            const data = await res.json();
+            
+            if (res.status === 401 && !data.error) return logout(); // Core token failure
+
+            if (res.ok) {
+                alertBox.style.backgroundColor = 'var(--success)';
+                alertBox.textContent = 'Password updated successfully!';
+                document.getElementById('currentPwd').value = '';
+                document.getElementById('newPwd').value = '';
+            } else {
+                alertBox.style.backgroundColor = 'var(--danger)';
+                alertBox.textContent = data.error || 'Update failed';
+            }
+        } catch(e) {
+            alertBox.style.backgroundColor = 'var(--danger)';
+            alertBox.textContent = 'Network error. Ensure server is active.';
+        }
+    }
+
+    // --- REUSABLE SECURE FETCH FUNCTION ---
+    async function fetchData(endpoint, containerId, renderCallback) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = '<div class="loading">Loading...</div>';
+      
+      try {
+        const response = await fetch(`${API_URL}${endpoint}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        
+        if (response.status === 401) return logout(); // Kick out invalid tokens
+
+        const data = await response.json();
+        
+        if (!Array.isArray(data)) {
+            container.innerHTML = `<div class="loading" style="color: red;">Error: Invalid data received</div>`;
+            return;
+        }
+
+        if (data.length === 0) {
+            container.innerHTML = '<div class="loading">No records found.</div>';
+            return;
+        }
+
+        renderCallback(data, container);
+      } catch (error) {
+        container.innerHTML = '<div class="loading" style="color: red;">Failed to fetch. Server may be down.</div>';
+      }
+    }
+
+    // --- BOOKINGS LOGIC ---
+    function fetchBookings() {
+      fetchData('/bookings', 'bookings-container', renderBookings);
+    }
+
+    function generateGCalLink(b) {
+      try {
+        const start = new Date(`${b.date}T${b.time || '00:00'}:00`);
+        const end = new Date(start.getTime() + (60 * 60 * 1000));
+        const formatDt = (d) => isNaN(d) ? '' : d.toISOString().replace(/-|:|\.\d\d\d/g, ''); 
+        const s = formatDt(start), e = formatDt(end);
+        if(!s) return '#';
+        
+        return `https://www.google.com/calendar/render?action=TEMPLATE&text=Ride Booking: ${b.name}&dates=${s}/${e}&details=Pickup: ${b.pickup}%0ADropoff: ${b.dropoff}`;
+      } catch (err) { return '#'; }
+    }
+
+    async function updateStatus(id, newStatus) {
+      if (!confirm(`Mark booking as ${newStatus}?`)) return;
+      try {
+        const res = await fetch(`${API_URL}/book/${id}`, {
+          method: 'PATCH',
+          headers: { 
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ status: newStatus })
+        });
+        
+        if (res.status === 401) return logout();
+
+        if (res.ok) {
+            const data = await res.json().catch(() => ({}));
+            if (newStatus === 'completed' && data.reviewCode) {
+              const booking = data.booking || {};
+              cacheReviewCode(booking._id || id, data.reviewCode);
+            }
+            fetchBookings();
+            initNotifications(); // refresh badges
+        } else alert('Update failed');
+      } catch (e) { alert('Network error'); }
+    }
+
+    const REVIEW_CODE_CACHE_KEY = 'atladdis_review_codes';
+
+    function getCachedReviewCodes() {
+      try { return JSON.parse(sessionStorage.getItem(REVIEW_CODE_CACHE_KEY) || '{}') || {}; }
+      catch (_) { return {}; }
+    }
+
+    function cacheReviewCode(bookingId, code) {
+      if (!bookingId || !code) return;
+      const map = getCachedReviewCodes();
+      map[String(bookingId)] = String(code);
+      sessionStorage.setItem(REVIEW_CODE_CACHE_KEY, JSON.stringify(map));
+    }
+
+    function getReviewCode(bookingId) {
+      const map = getCachedReviewCodes();
+      return map[String(bookingId)] || null;
+    }
+
+    function buildReviewMessage(booking, code) {
+      const name = booking?.name || 'there';
+      return `Hi ${name}, thanks for riding with AtlasAdiss. Your review code is: ${code}. Leave a review at http://localhost:8080/index.html#reviews-section`;
+    }
+
+    function getSmsHref(phone, message) {
+      const p = String(phone || '').trim();
+      if (!p) return '#';
+      // Note: sms: URL support varies; body param works in most environments.
+      return `sms:${encodeURIComponent(p)}?body=${encodeURIComponent(message)}`;
+    }
+
+    function getMailtoHref(email, message) {
+      const e = String(email || '').trim();
+      if (!e) return '#';
+      const subject = 'Your AtlasAdiss review code';
+      return `mailto:${encodeURIComponent(e)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+    }
+
+    function getTelHref(phone) {
+      const p = String(phone || '').trim();
+      if (!p) return '#';
+      return `tel:${encodeURIComponent(p)}`;
+    }
+
+    async function copyToClipboardWithFeedback(btn, text, okLabel = 'Copied') {
+      if (!btn) return;
+      const original = btn.textContent;
+      try {
+        await navigator.clipboard.writeText(String(text || ''));
+        btn.textContent = okLabel;
+      } catch (_) {
+        // Fallback: prompt lets user copy manually
+        prompt('Copy:', String(text || ''));
+        btn.textContent = okLabel;
+      } finally {
+        setTimeout(() => { btn.textContent = original; }, 1200);
+      }
+    }
+
+    async function generateReviewCode(bookingId) {
+      try {
+        const res = await fetch(`${API_URL}/book/${bookingId}/review-code`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        if (res.status === 401) return logout();
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) return alert(data.error || 'Failed to generate review code');
+
+        const code = data.code;
+        cacheReviewCode(bookingId, code);
+        fetchBookings();
+      } catch (e) {
+        alert('Network error');
+      }
+    }
+
+    function renderBookings(bookings, container) {
+      container.innerHTML = '';
+      
+      const pendingCount = bookings.filter(b => b.status === 'pending').length;
+      if (hasLoadedGlobally) updateBadge('badge-bookings', pendingCount);
+
+      // Sort and group
+      bookings.sort((a,b) => new Date(`${a.date}T${a.time||'00:00'}`) - new Date(`${b.date}T${b.time||'00:00'}`));
+      
+      const grouped = {};
+      bookings.forEach(b => {
+        const d = b.date || 'Unknown';
+        if (!grouped[d]) grouped[d] = [];
+        grouped[d].push(b);
+      });
+
+      const frag = document.createDocumentFragment();
+
+      const setText = (el, text) => { el.textContent = text == null ? '' : String(text); };
+
+      const addPara = (parent, strongLabel, textParts) => {
+        const p = document.createElement('p');
+        const strong = document.createElement('strong');
+        setText(strong, strongLabel);
+        p.appendChild(strong);
+
+        if (Array.isArray(textParts)) {
+          textParts.forEach((part) => {
+            if (part == null) return;
+            if (part.nodeType) p.appendChild(part);
+            else p.appendChild(document.createTextNode(String(part)));
+          });
+        } else if (textParts != null) {
+          p.appendChild(document.createTextNode(String(textParts)));
+        }
+
+        parent.appendChild(p);
+      };
+
+      const createBtn = ({ text, className, style, disabled, onClick }) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = className || 'btn';
+        if (style) btn.setAttribute('style', style);
+        if (disabled) btn.disabled = true;
+        setText(btn, text);
+        if (onClick) btn.addEventListener('click', onClick);
+        return btn;
+      };
+
+      const ICONS = {
+        sms: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 4h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H9l-5 3v-3H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Zm0 2v9h2v2.2L8.6 15H20V6H4Z"/></svg>`,
+        email: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 6h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Zm0 2v.5l8 5 8-5V8H4Zm16 10V10.9l-7.4 4.6a1 1 0 0 1-1.2 0L4 10.9V18h16Z"/></svg>`,
+        phone: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8a15.6 15.6 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.24c1.1.36 2.3.56 3.5.56a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C11.3 21 3 12.7 3 2a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.2.2 2.4.56 3.5a1 1 0 0 1-.24 1l-2.2 2.3Z"/></svg>`,
+        gcal: `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 2a1 1 0 0 1 1 1v1h8V3a1 1 0 1 1 2 0v1h1a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h1V3a1 1 0 0 1 1-1Zm12 8H5v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-9ZM6 8h12V7a1 1 0 0 0-1-1h-1v1a1 1 0 1 1-2 0V6H8v1a1 1 0 0 1-2 0V6H5a1 1 0 0 0-1 1v1Z"/></svg>`,
+      };
+
+      const createLinkBtn = ({ text, icon, ariaLabel, title, className, style, href, target }) => {
+        const a = document.createElement('a');
+        a.className = className || 'btn';
+        if (style) a.setAttribute('style', style);
+        a.href = href;
+        if (target) a.target = target;
+        if (icon) {
+          a.classList.add('icon-btn');
+          a.innerHTML = ICONS[icon] || '';
+          if (ariaLabel) a.setAttribute('aria-label', ariaLabel);
+          if (title) a.title = title;
+        } else {
+          setText(a, text);
+        }
+        return a;
+      };
+
+      const createReviewCodeBox = (booking, cachedCode, shareMsg) => {
+        const box = document.createElement('div');
+        box.setAttribute(
+          'style',
+          'margin-top: 12px; padding: 12px; border-radius: 10px; background: rgba(26,26,26,0.06); border: 1px solid rgba(0,0,0,0.06);'
+        );
+
+        const p = document.createElement('p');
+        p.setAttribute('style', 'margin: 0 0 8px 0;');
+        const strong = document.createElement('strong');
+        setText(strong, 'Review Code:');
+        const codeSpan = document.createElement('span');
+        codeSpan.setAttribute('style', 'letter-spacing: 2px;');
+        setText(codeSpan, cachedCode);
+        p.appendChild(strong);
+        p.appendChild(document.createTextNode(' '));
+        p.appendChild(codeSpan);
+        box.appendChild(p);
+
+        const actions = document.createElement('div');
+        actions.className = 'action-buttons review-actions';
+        actions.setAttribute('style', 'margin-top: 0;');
+
+        const copyCodeBtn = createBtn({
+          text: 'Copy Code',
+          className: 'btn',
+          style: 'background-color: var(--primary);',
+        });
+        copyCodeBtn.dataset.action = 'copy-code';
+        copyCodeBtn.dataset.code = cachedCode;
+
+        const copyTextBtn = createBtn({
+          text: 'Copy Text',
+          className: 'btn',
+          style: 'background-color: var(--primary);',
+        });
+        copyTextBtn.dataset.action = 'copy-message';
+        copyTextBtn.dataset.message = encodeURIComponent(shareMsg || '');
+
+        actions.appendChild(copyCodeBtn);
+        actions.appendChild(copyTextBtn);
+
+        if (booking.phone) {
+          actions.appendChild(
+            createLinkBtn({
+              icon: 'sms',
+              ariaLabel: 'Send SMS with review code',
+              title: 'SMS',
+              className: 'btn',
+              style: 'background-color: var(--accent); color: var(--primary);',
+              href: getSmsHref(booking.phone, shareMsg),
+            })
+          );
+        }
+        if (booking.email) {
+          actions.appendChild(
+            createLinkBtn({
+              icon: 'email',
+              ariaLabel: 'Send email with review code',
+              title: 'Email',
+              className: 'btn',
+              style: 'background-color: var(--accent); color: var(--primary);',
+              href: getMailtoHref(booking.email, shareMsg),
+            })
+          );
+        }
+
+        box.appendChild(actions);
+        return box;
+      };
+
+      Object.keys(grouped).forEach((dateStr) => {
+        const header = document.createElement('div');
+        header.className = 'date-label';
+        header.innerHTML = `📅 ${dateStr}`;
+        frag.appendChild(header);
+
+        grouped[dateStr].forEach((b) => {
+          const status = b.status || 'pending';
+          const gcalLink = generateGCalLink(b);
+          const cachedCode = status === 'completed' ? getReviewCode(b._id) : null;
+          const shareMsg = cachedCode ? buildReviewMessage(b, cachedCode) : null;
+          const telHref = b.phone ? getTelHref(b.phone) : null;
+          const emailHref = b.email ? `mailto:${encodeURIComponent(String(b.email).trim())}` : null;
+
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.setAttribute(
+            'style',
+            `border-left-color: ${status === 'completed' ? 'var(--success)' : status === 'confirmed' ? 'var(--accent)' : 'var(--warning)'}`
+          );
+
+          const cardHeader = document.createElement('div');
+          cardHeader.className = 'card-header';
+
+          const headerLeft = document.createElement('div');
+          const title = document.createElement('h3');
+          title.className = 'card-title';
+          setText(title, b.time || '--:--');
+          const sub = document.createElement('div');
+          sub.className = 'card-subtitle';
+          setText(sub, b.name);
+          headerLeft.appendChild(title);
+          headerLeft.appendChild(sub);
+
+          const statusEl = document.createElement('span');
+          statusEl.className = `status ${status}`;
+          setText(statusEl, status);
+
+          cardHeader.appendChild(headerLeft);
+          cardHeader.appendChild(statusEl);
+
+          const body = document.createElement('div');
+          body.className = 'card-body';
+
+          const arrow = document.createElement('span');
+          arrow.innerHTML = ' &rarr; ';
+
+          addPara(body, 'Route:', [document.createTextNode(` ${b.pickup} `), arrow, document.createTextNode(String(b.dropoff || ''))]);
+          addPara(body, 'Service:', ` ${b.serviceType || 'Standard'}`);
+          addPara(body, 'Contact:', ` ${b.phone || ''} ${b.email || ''}`);
+
+          const actions = document.createElement('div');
+          actions.className = 'action-buttons booking-actions';
+
+          actions.appendChild(
+            createBtn({
+              text: 'Confirm',
+              className: 'btn btn-confirm',
+              disabled: status !== 'pending',
+              onClick: () => updateStatus(b._id, 'confirmed'),
+            })
+          );
+          actions.appendChild(
+            createBtn({
+              text: 'Complete',
+              className: 'btn btn-complete',
+              disabled: status !== 'confirmed',
+              onClick: () => updateStatus(b._id, 'completed'),
+            })
+          );
+
+          if (status === 'completed') {
+            actions.appendChild(
+              createBtn({
+                text: cachedCode ? 'Regenerate Code' : 'Generate Code',
+                className: 'btn',
+                style: 'background-color: var(--primary);',
+                onClick: () => generateReviewCode(b._id),
+              })
+            );
+          }
+
+          if (gcalLink !== '#') {
+            actions.appendChild(
+              createLinkBtn({
+                icon: 'gcal',
+                ariaLabel: 'Open Google Calendar link',
+                title: 'GCal',
+                className: 'btn btn-gcal',
+                href: gcalLink,
+                target: '_blank',
+              })
+            );
+          }
+
+          if (telHref) {
+            actions.appendChild(
+              createLinkBtn({
+                icon: 'phone',
+                ariaLabel: 'Call customer',
+                title: 'Call',
+                className: 'btn',
+                style: 'background-color: var(--primary);',
+                href: telHref,
+              })
+            );
+          }
+
+          if (emailHref) {
+            actions.appendChild(
+              createLinkBtn({
+                icon: 'email',
+                ariaLabel: 'Email customer',
+                title: 'Email',
+                className: 'btn',
+                style: 'background-color: var(--primary);',
+                href: emailHref,
+              })
+            );
+          }
+
+          body.appendChild(actions);
+
+          if (cachedCode) {
+            body.appendChild(createReviewCodeBox(b, cachedCode, shareMsg));
+          }
+
+          card.appendChild(cardHeader);
+          card.appendChild(body);
+          frag.appendChild(card);
+        });
+      });
+
+      container.appendChild(frag);
+    }
+
+    // One delegated handler for inline actions (avoids broken inline JS/escaping issues)
+    document.addEventListener('click', (e) => {
+      const btn = e.target?.closest?.('button[data-action]');
+      if (!btn) return;
+
+      const action = btn.getAttribute('data-action');
+      if (action === 'copy-code') {
+        const code = btn.getAttribute('data-code') || '';
+        copyToClipboardWithFeedback(btn, code, 'Copied');
+      }
+      if (action === 'copy-message') {
+        const msg = decodeURIComponent(btn.getAttribute('data-message') || '');
+        copyToClipboardWithFeedback(btn, msg, 'Copied');
+      }
+    });
+
+    // --- MESSAGES LOGIC ---
+    function fetchMessages() {
+      fetchData('/contact', 'messages-container', renderMessages);
+    }
+
+    function renderMessages(messages, container) {
+      container.innerHTML = '';
+      
+      const newMsgs = messages.filter(x => isRecent(x.createdAt)).length;
+      if (hasLoadedGlobally) updateBadge('badge-messages', newMsgs);
+
+      messages.forEach(msg => {
+        const dateStr = msg.createdAt ? new Date(msg.createdAt).toLocaleDateString() : 'Unknown Date';
+        const isNew = isRecent(msg.createdAt);
+
+        container.innerHTML += `
+          <div class="card" style="border-left-color: var(--primary)">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">${msg.name} ${isNew ? '<span class="new-badge">NEW</span>' : ''}</h3>
+                <div class="card-subtitle">${msg.phone || ''} ${msg.email ? ` | ${msg.email}` : ''}</div>
+              </div>
+              <span style="font-size: 12px; color: var(--muted);">${dateStr}</span>
+            </div>
+            <div class="card-body">
+              <p style="white-space: pre-wrap; font-style: italic;">"${msg.message}"</p>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    // --- REVIEWS LOGIC ---
+    function fetchReviews() {
+      fetchData('/reviews/all', 'reviews-container', renderReviews);
+    }
+
+    function renderReviews(reviews, container) {
+      container.innerHTML = '';
+
+      const newRevs = reviews.filter(x => isRecent(x.createdAt)).length;
+      if (hasLoadedGlobally) updateBadge('badge-reviews', newRevs);
+
+      reviews.forEach(rev => {
+        const dateStr = rev.createdAt ? new Date(rev.createdAt).toLocaleDateString() : 'Unknown Date';
+        const stars = '★'.repeat(rev.rating || 5) + '☆'.repeat(5 - (rev.rating || 5));
+        const isNew = isRecent(rev.createdAt);
+        const approved = !!rev.isApproved;
+        
+        container.innerHTML += `
+          <div class="card" style="border-left-color: ${approved ? 'var(--success)' : 'var(--danger)'}">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">${rev.name} ${isNew ? '<span class="new-badge">NEW</span>' : ''}</h3>
+                <div class="rating-stars">${stars}</div>
+                <div class="card-subtitle">${approved ? 'Approved (Public)' : 'Hidden (Pending)'} </div>
+              </div>
+              <span style="font-size: 12px; color: var(--muted);">${dateStr}</span>
+            </div>
+            <div class="card-body">
+              <p style="white-space: pre-wrap;">"${rev.message}"</p>
+              <div class="action-buttons" style="margin-top: 12px;">
+                <button class="btn btn-confirm" onclick="approveReview('${rev._id}')" ${approved ? 'disabled' : ''}>Approve</button>
+                <button class="btn" style="background-color: var(--danger);" onclick="hideReview('${rev._id}')" ${!approved ? 'disabled' : ''}>Hide</button>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    async function approveReview(id) {
+      try {
+        const res = await fetch(`${API_URL}/review/${id}/approve`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        if (res.status === 401) return logout();
+        if (res.ok) {
+          fetchReviews();
+          initNotifications();
+        } else {
+          alert('Approve failed');
+        }
+      } catch (e) {
+        alert('Network error');
+      }
+    }
+
+    async function hideReview(id) {
+      try {
+        const res = await fetch(`${API_URL}/review/${id}/hide`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        if (res.status === 401) return logout();
+        if (res.ok) {
+          fetchReviews();
+          initNotifications();
+        } else {
+          alert('Hide failed');
+        }
+      } catch (e) {
+        alert('Network error');
+      }
+    }
+
+    // Init
+    initNotifications().then(() => fetchBookings());
+  </script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login - Atladdis</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* Admin page uses same theme as frontend; keep only small overrides here. */
+    body {
+      min-height: 100vh;
+      margin: 0;
+      background: linear-gradient(rgba(26, 26, 26, 0.85), rgba(26, 26, 26, 0.95)),
+        url('assets/hero_cadillac_2021.jpg') center/cover no-repeat fixed;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .admin-login-wrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 1.5rem;
+    }
+
+    .admin-login-card {
+      width: 100%;
+      max-width: 520px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 3rem;
+      border-radius: 16px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .admin-login-title {
+      color: var(--secondary-color);
+      text-align: center;
+      margin-bottom: 0.25rem;
+      font-size: 2rem;
+    }
+
+    .admin-login-subtitle {
+      text-align: center;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 2rem;
+      font-size: 1.05rem;
+    }
+
+    .admin-login-card label {
+      color: #e0e0e0;
+      font-weight: 500;
+    }
+
+    .admin-login-card input[type="text"],
+    .admin-login-card input[type="password"] {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      padding: 1rem;
+      height: 52px;
+      width: 100%;
+    }
+
+    .admin-login-card input:focus {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: var(--secondary-color);
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.3);
+    }
+
+    .admin-login-card input::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .admin-login-card .btn {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1.05rem;
+      border-radius: 10px;
+    }
+
+    /* Ensure alert spacing looks good on dark background */
+    .alert {
+      max-width: 100%;
+      margin: 0 0 1.25rem 0;
+    }
+
+    @media screen and (max-width: 480px) {
+      .admin-login-card { padding: 2rem 1.25rem; border-radius: 12px; }
+      .admin-login-title { font-size: 1.7rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-login-wrap">
+    <div class="admin-login-card">
+      <h2 class="admin-login-title">Admin Access</h2>
+      <p class="admin-login-subtitle">Sign in to manage bookings, messages, and reviews.</p>
+
+      <div id="alertBox" class="alert hidden" role="status" aria-live="polite"></div>
+
+      <form id="loginForm" novalidate>
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" autocomplete="username" required placeholder="Enter admin username">
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" autocomplete="current-password" required placeholder="Enter password">
+        </div>
+        <button type="submit" class="btn" id="loginBtn">Login</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function setAlert(type, text) {
+      const alertBox = document.getElementById('alertBox');
+      alertBox.textContent = text || '';
+      alertBox.className = `alert ${type}`;
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('loginBtn');
+      
+      btn.disabled = true;
+      btn.textContent = 'Authenticating...';
+      setAlert('hidden', '');
+
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      try {
+        const response = await fetch('http://localhost:5000/api/admin/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+
+        let data = {};
+        try { data = await response.json(); } catch (_) { data = {}; }
+
+        if (response.ok) {
+          sessionStorage.setItem('adminToken', data.token);
+          window.location.href = 'admin.html';
+        } else {
+          setAlert('error', data.error || data.message || 'Invalid username or password');
+        }
+      } catch (err) {
+        setAlert('error', 'Network error. Ensure the backend server is running.');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Login';
+      }
+    });
+
+    // Bounce authenticated users to admin instantly
+    if (sessionStorage.getItem('adminToken')) {
+        window.location.href = 'admin.html';
+    }
+  </script>
+</body>
+</html>
