@@ -393,7 +393,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <p class="quote">No reviews yet. Be the first to share your experience.</p>
                     <div class="client-info">
                       <div class="client-avatar">AA</div>
-                      <div class="client-name">- AtlasAdiss</div>
+                      <div class="client-name">- AtlaAdiss</div>
                     </div>
                   </div>
                 `;
@@ -424,7 +424,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p class="quote">Failed to load reviews. Please try again later.</p>
                 <div class="client-info">
                   <div class="client-avatar">AA</div>
-                  <div class="client-name">- AtlasAdiss</div>
+                  <div class="client-name">- AtlaAdiss</div>
                 </div>
               </div>
             `;

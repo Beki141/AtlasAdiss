@@ -737,7 +737,7 @@
 
     function buildReviewMessage(booking, code) {
       const name = booking?.name || 'there';
-      return `Hi ${name}, thanks for riding with AtlasAdiss. Your review code is: ${code}. Leave a review at http://localhost:8080/index.html#reviews-section`;
+      return `Hi ${name}, thanks for riding with AtlaAdiss. Your review code is: ${code}. Leave a review at http://localhost:8080/index.html#reviews-section`;
     }
 
     function getSmsHref(phone, message) {
@@ -750,7 +750,7 @@
     function getMailtoHref(email, message) {
       const e = String(email || '').trim();
       if (!e) return '#';
-      const subject = 'Your AtlasAdiss review code';
+      const subject = 'Your AtlaAdiss review code';
       return `mailto:${encodeURIComponent(e)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
     }
 
