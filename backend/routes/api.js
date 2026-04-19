@@ -5,6 +5,9 @@ const Contact = require('../models/Contact');
 const Review = require('../models/Review');
 const { protect } = require('../middleware/authMiddleware');
 const crypto = require('crypto');
+const PDFDocument = require('pdfkit');
+const PHONE_REGEX = /^[+]?[0-9]{7,15}$/;
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function normalizeReviewCode(code) {
   return String(code || '').trim().toUpperCase().replace(/\s+/g, '');
@@ -31,11 +34,20 @@ router.post('/book', async (req, res) => {
     if (!name || !pickup || !dropoff || !date || !time || !serviceType) {
       return res.status(400).json({ error: "Missing required booking fields" });
     }
+    if (String(name).trim().length < 2) {
+      return res.status(400).json({ error: "Invalid input" });
+    }
+    if (phone && !PHONE_REGEX.test(String(phone).trim())) {
+      return res.status(400).json({ error: "Invalid input" });
+    }
+    if (email && !EMAIL_REGEX.test(String(email).trim())) {
+      return res.status(400).json({ error: "Invalid input" });
+    }
 
     const newBooking = new Booking({ name, phone, email, pickup, dropoff, date, time, serviceType });
     await newBooking.save();
 
-    res.json({ message: "Booking saved" });
+    res.json({ message: "Success" });
   } catch (error) {
     res.status(500).json({ error: "Database error saving booking" });
   }
@@ -123,11 +135,20 @@ router.post('/contact', async (req, res) => {
     if (!name || (!phone && !email) || !message) {
       return res.status(400).json({ error: "Missing required contact fields" });
     }
+    if (String(name).trim().length < 2 || String(message).trim().length < 5) {
+      return res.status(400).json({ error: "Invalid input" });
+    }
+    if (phone && !PHONE_REGEX.test(String(phone).trim())) {
+      return res.status(400).json({ error: "Invalid input" });
+    }
+    if (email && !EMAIL_REGEX.test(String(email).trim())) {
+      return res.status(400).json({ error: "Invalid input" });
+    }
 
     const newContact = new Contact({ name, phone, email, message });
     await newContact.save();
 
-    res.json({ message: "Message received" });
+    res.json({ message: "Success" });
   } catch (error) {
     res.status(500).json({ error: "Database error saving contact msg" });
   }
@@ -167,6 +188,9 @@ router.post('/review', async (req, res) => {
     if (!name || !message || !rating || !reviewCode) {
       return res.status(400).json({ error: "Missing required review fields" });
     }
+    if (String(name).trim().length < 2 || String(message).trim().length < 5) {
+      return res.status(400).json({ error: "Invalid input" });
+    }
 
     const parsedRating = Number(rating);
     if (!Number.isFinite(parsedRating) || parsedRating < 1 || parsedRating > 5) {
@@ -194,7 +218,7 @@ router.post('/review', async (req, res) => {
     booking.reviewCodeUsed = true;
     await booking.save();
 
-    res.json({ message: "Thank you for your review! We’ve received it." });
+    res.json({ message: "Success" });
   } catch (error) {
     res.status(500).json({ error: "Database error saving review" });
   }
@@ -218,6 +242,94 @@ router.get('/reviews/all', protect, async (req, res) => {
     res.json(reviews);
   } catch (error) {
     res.status(500).json({ error: "Database error fetching reviews" });
+  }
+});
+
+// ==========================================================
+// EXPORT / BACKUP
+// GET /api/export/all?format=json|pdf (admin only)
+// ==========================================================
+router.get('/export/all', protect, async (req, res) => {
+  try {
+    const format = String(req.query.format || 'json').toLowerCase();
+
+    const [bookings, messages, reviews] = await Promise.all([
+      Booking.find().sort({ createdAt: -1 }).lean(),
+      Contact.find().sort({ createdAt: -1 }).lean(),
+      Review.find().sort({ createdAt: -1 }).lean(),
+    ]);
+
+    const payload = { bookings, messages, reviews };
+
+    if (format === 'pdf') {
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', 'attachment; filename="backup.pdf"');
+
+      const doc = new PDFDocument({ margin: 50 });
+      doc.pipe(res);
+
+      const generatedAt = new Date().toLocaleString();
+      doc.fontSize(18).text('Atladdis Transportation Backup Report', { align: 'center' });
+      doc.moveDown(0.5);
+      doc.fontSize(10).fillColor('#555').text(`Generated: ${generatedAt}`, { align: 'center' });
+      doc.moveDown(1.5);
+      doc.fillColor('#000');
+
+      const sectionTitle = (t) => {
+        doc.moveDown(0.5);
+        doc.fontSize(14).text(t);
+        doc.moveDown(0.4);
+        doc.moveTo(doc.page.margins.left, doc.y).lineTo(doc.page.width - doc.page.margins.right, doc.y).strokeColor('#ddd').stroke();
+        doc.moveDown(0.6);
+        doc.fillColor('#000').fontSize(11);
+      };
+
+      const kv = (k, v) => {
+        doc.font('Helvetica-Bold').text(`${k}:`, { continued: true });
+        doc.font('Helvetica').text(` ${v ?? ''}`);
+      };
+
+      sectionTitle('BOOKINGS');
+      bookings.forEach((b, idx) => {
+        doc.font('Helvetica-Bold').text(`#${idx + 1}`, { continued: true });
+        doc.font('Helvetica').text(`  ${b.name || ''}`);
+        kv('Route', `${b.pickup || ''} → ${b.dropoff || ''}`);
+        kv('Date/Time', `${b.date || ''} ${b.time || ''}`.trim());
+        kv('Status', b.status || '');
+        doc.moveDown(0.6);
+      });
+      if (bookings.length === 0) doc.text('No bookings found.').moveDown(0.6);
+
+      sectionTitle('MESSAGES');
+      messages.forEach((m, idx) => {
+        doc.font('Helvetica-Bold').text(`#${idx + 1}`, { continued: true });
+        doc.font('Helvetica').text(`  ${m.name || ''}`);
+        kv('Contact', `${m.phone || ''}${m.phone && m.email ? ' | ' : ''}${m.email || ''}`);
+        kv('Message', m.message || '');
+        doc.moveDown(0.6);
+      });
+      if (messages.length === 0) doc.text('No messages found.').moveDown(0.6);
+
+      sectionTitle('REVIEWS');
+      reviews.forEach((r, idx) => {
+        doc.font('Helvetica-Bold').text(`#${idx + 1}`, { continued: true });
+        doc.font('Helvetica').text(`  ${r.name || ''}`);
+        kv('Rating', r.rating ?? '');
+        kv('Message', r.message || '');
+        doc.moveDown(0.6);
+      });
+      if (reviews.length === 0) doc.text('No reviews found.').moveDown(0.6);
+
+      doc.end();
+      return;
+    }
+
+    // default: JSON
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Content-Disposition', 'attachment; filename="backup.json"');
+    res.status(200).send(JSON.stringify(payload, null, 2));
+  } catch (error) {
+    res.status(500).json({ error: "Database error exporting backup" });
   }
 });
 

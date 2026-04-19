@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,21 +32,25 @@
       background-color: var(--primary);
       padding: 15px 20px;
       color: white;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
-    
+
     .nav-container {
-      max-width: 1200px; 
-      margin: 0 auto; 
-      display: flex; 
-      justify-content: space-between; 
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
       align-items: center;
     }
-    .nav-container h1 { margin: 0; font-size: 22px; }
+
+    .nav-container h1 {
+      margin: 0;
+      font-size: 22px;
+    }
 
     .btn-logout {
       background: transparent;
-      border: 1px solid rgba(255,255,255,0.85);
+      border: 1px solid rgba(255, 255, 255, 0.85);
       color: white;
       padding: 6px 12px;
       border-radius: 4px;
@@ -53,7 +58,10 @@
       font-size: 14px;
       transition: background 0.3s;
     }
-    .btn-logout:hover { background: rgba(255,255,255,0.1); }
+
+    .btn-logout:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
 
     .container {
       max-width: 1200px;
@@ -70,10 +78,10 @@
     }
 
     .tab-btn {
-      flex: 1; 
+      flex: 1;
       padding: 12px 20px;
       border: none;
-      background: rgba(26,26,26,0.06);
+      background: rgba(26, 26, 26, 0.06);
       color: var(--primary);
       font-size: 16px;
       border-radius: 8px;
@@ -87,10 +95,15 @@
     }
 
     @media (min-width: 768px) {
-      .tab-btn { flex: unset; }
+      .tab-btn {
+        flex: unset;
+      }
     }
 
-    .tab-btn:hover { background-color: rgba(26,26,26,0.1); }
+    .tab-btn:hover {
+      background-color: rgba(26, 26, 26, 0.1);
+    }
+
     .tab-btn.active {
       background-color: var(--accent);
       color: var(--primary);
@@ -108,27 +121,49 @@
     }
 
     /* Sections */
-    .section { display: none; }
-    .section.active { display: block; animation: fadeIn 0.4s; }
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+      animation: fadeIn 0.4s;
+    }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* Responsive Card Grid */
-    .card-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
-    @media (min-width: 768px) { .card-grid { grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); } }
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    @media (min-width: 768px) {
+      .card-grid {
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      }
+    }
 
     .card {
       background: var(--card-bg);
       border-radius: 16px;
       padding: 22px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
       border-left: 5px solid var(--accent);
       display: flex;
       flex-direction: column;
-      border: 1px solid rgba(0,0,0,0.04);
+      border: 1px solid rgba(0, 0, 0, 0.04);
     }
 
     .card-header {
@@ -136,56 +171,125 @@
       justify-content: space-between;
       align-items: flex-start;
       margin-bottom: 12px;
-      border-bottom: 1px solid rgba(0,0,0,0.06);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
       padding-bottom: 12px;
     }
-    .card-title { font-size: 18px; font-weight: bold; color: var(--primary); margin: 0; }
-    .card-subtitle { font-size: 13px; color: var(--muted); margin-top: 5px; }
 
-    .card-body { flex-grow: 1; }
-    .card-body p { margin: 8px 0; font-size: 14px; line-height: 1.5; }
+    .card-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: var(--primary);
+      margin: 0;
+    }
 
-    .status { padding: 5px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; text-transform: capitalize; color: white; }
-    .status.pending { background-color: var(--warning); color: #fff; }
-    .status.confirmed { background-color: var(--accent); }
-    .status.completed { background-color: var(--success); }
+    .card-subtitle {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 5px;
+    }
 
-    .action-buttons { 
-      display: flex; 
-      gap: 10px; 
-      margin-top: auto; 
+    .card-body {
+      flex-grow: 1;
+    }
+
+    .card-body p {
+      margin: 8px 0;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .status {
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+      text-transform: capitalize;
+      color: white;
+    }
+
+    .status.pending {
+      background-color: var(--warning);
+      color: #fff;
+    }
+
+    .status.confirmed {
+      background-color: var(--accent);
+    }
+
+    .status.completed {
+      background-color: var(--success);
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: auto;
       padding-top: 15px;
-      flex-wrap: wrap; 
+      flex-wrap: wrap;
       justify-content: flex-end;
     }
-    .btn { 
-      padding: 8px 16px; 
-      border: none; 
-      border-radius: 8px; 
-      cursor: pointer; 
-      font-size: 13px; 
+
+    .btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
       font-weight: 600;
-      color: white; 
-      text-align: center; 
-      text-decoration: none; 
+      color: white;
+      text-align: center;
+      text-decoration: none;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      transition: transform 0.15s ease, opacity 0.3s ease, box-shadow 0.2s ease; 
+      transition: transform 0.15s ease, opacity 0.3s ease, box-shadow 0.2s ease;
     }
-    .btn:hover { opacity: 0.9; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-    .btn:active { transform: translateY(1px); }
+
+    .btn:hover {
+      opacity: 0.9;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+    }
 
     @media (max-width: 480px) {
-      .card { padding: 18px; border-radius: 12px; }
-      .action-buttons { justify-content: center; }
-      .btn { flex: 1 1 auto; min-width: 100px; }
+      .card {
+        padding: 18px;
+        border-radius: 12px;
+      }
+
+      .action-buttons {
+        justify-content: center;
+      }
+
+      .btn {
+        flex: 1 1 auto;
+        min-width: 100px;
+      }
     }
 
-    .btn-confirm { background-color: var(--accent); color: var(--primary); }
-    .btn-complete { background-color: var(--success); }
-    .btn-gcal { background-color: #9b59b6; }
-    .btn:disabled { background-color: #bdc3c7; color: #7f8c8d; cursor: not-allowed; box-shadow: none; pointer-events: none; }
+    .btn-confirm {
+      background-color: var(--accent);
+      color: var(--primary);
+    }
+
+    .btn-complete {
+      background-color: var(--success);
+    }
+
+    .btn-gcal {
+      background-color: #9b59b6;
+    }
+
+    .btn:disabled {
+      background-color: #bdc3c7;
+      color: #7f8c8d;
+      cursor: not-allowed;
+      box-shadow: none;
+      pointer-events: none;
+    }
 
     /* Icon buttons (SMS/Email/Call/GCal) */
     .btn.icon-btn {
@@ -196,14 +300,18 @@
       border-radius: 8px;
     }
 
-    .btn.icon-btn svg { width: 18px; height: 18px; }
+    .btn.icon-btn svg {
+      width: 18px;
+      height: 18px;
+    }
 
     /* Booking actions: refined alignment */
     .action-buttons.booking-actions {
-      border-top: 1px solid rgba(0,0,0,0.06);
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
     }
+
     .action-buttons.booking-actions .btn {
-      border: 1px solid rgba(0,0,0,0.04);
+      border: 1px solid rgba(0, 0, 0, 0.04);
     }
 
     /* Review code share tools */
@@ -214,13 +322,38 @@
       padding-top: 0;
     }
 
-    .date-label { background-color: var(--primary); color: white; padding: 10px 15px; border-radius: 6px; margin: 30px 0 15px 0; font-size: 18px; grid-column: 1 / -1; }
-    .loading { text-align: center; padding: 40px; color: var(--muted); font-size: 18px; grid-column: 1 / -1; }
-    .rating-stars { color: var(--warning); font-size: 16px; }
+    .date-label {
+      background-color: var(--primary);
+      color: white;
+      padding: 10px 15px;
+      border-radius: 6px;
+      margin: 30px 0 15px 0;
+      font-size: 18px;
+      grid-column: 1 / -1;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: var(--muted);
+      font-size: 18px;
+      grid-column: 1 / -1;
+    }
+
+    .rating-stars {
+      color: var(--warning);
+      font-size: 16px;
+    }
 
     /* Highlights for new items */
     .new-badge {
-        font-size: 10px; background: var(--danger); color: white; padding: 2px 6px; border-radius: 10px; margin-left: 8px; vertical-align: top;
+      font-size: 10px;
+      background: var(--danger);
+      color: white;
+      padding: 2px 6px;
+      border-radius: 10px;
+      margin-left: 8px;
+      vertical-align: top;
     }
   </style>
 
@@ -237,12 +370,13 @@
     }
   </script>
 </head>
+
 <body>
 
   <div class="navbar">
     <div class="nav-container">
-        <h1>Atladdis Dashboard</h1>
-        <button onclick="logout()" class="btn-logout">Logout</button>
+      <h1>Atladdis Dashboard</h1>
+      <button onclick="logout()" class="btn-logout">Logout</button>
     </div>
   </div>
 
@@ -250,16 +384,16 @@
     <!-- Navigation Tabs -->
     <div class="tabs">
       <button class="tab-btn active" onclick="switchSection('bookings', this)">
-          Bookings <span id="badge-bookings" class="badge"></span>
+        Bookings <span id="badge-bookings" class="badge"></span>
       </button>
       <button class="tab-btn" onclick="switchSection('messages', this)">
-          Messages <span id="badge-messages" class="badge"></span>
+        Messages <span id="badge-messages" class="badge"></span>
       </button>
       <button class="tab-btn" onclick="switchSection('reviews', this)">
-          Reviews <span id="badge-reviews" class="badge"></span>
+        Reviews <span id="badge-reviews" class="badge"></span>
       </button>
       <button class="tab-btn" onclick="switchSection('settings', this)">
-          Settings
+        Settings
       </button>
     </div>
 
@@ -291,23 +425,39 @@
           <h3 class="card-title">Change Password</h3>
         </div>
         <div class="card-body">
-          <div id="pwd-alert" class="badge" style="display:none; width: 100%; box-sizing: border-box; text-align: center; padding: 10px; margin-bottom: 15px; font-size: 14px;"></div>
+          <div id="pwd-alert" class="badge"
+            style="display:none; width: 100%; box-sizing: border-box; text-align: center; padding: 10px; margin-bottom: 15px; font-size: 14px;">
+          </div>
           <div style="margin-bottom: 12px;">
-            <label style="display:block; font-size: 14px; font-weight: bold; margin-bottom: 4px;">Current Password</label>
-            <input type="password" id="currentPwd" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
+            <label style="display:block; font-size: 14px; font-weight: bold; margin-bottom: 4px;">Current
+              Password</label>
+            <input type="password" id="currentPwd"
+              style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
           </div>
           <div style="margin-bottom: 15px;">
             <label style="display:block; font-size: 14px; font-weight: bold; margin-bottom: 4px;">New Password</label>
-            <input type="password" id="newPwd" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
+            <input type="password" id="newPwd"
+              style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
           </div>
-          <button class="btn btn-confirm" style="width: 100%; padding: 10px; font-size: 15px;" onclick="changePassword()">Update Password</button>
+          <button class="btn btn-confirm" style="width: 100%; padding: 10px; font-size: 15px;"
+            onclick="changePassword()">Update Password</button>
+
+          <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid rgba(0,0,0,0.06);">
+            <div style="font-weight: 700; margin-bottom: 10px; color: var(--primary);">Backup</div>
+            <div class="action-buttons" style="justify-content: stretch; margin-top: 0; padding-top: 0;">
+              <button class="btn" style="background-color: var(--primary); width: 100%;"
+                onclick="downloadBackup('json')">Download JSON Backup</button>
+              <button class="btn" style="background-color: var(--primary); width: 100%;"
+                onclick="downloadBackup('pdf')">Download PDF Report</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    const API_URL = 'http://localhost:5000/api'; 
+    const API_URL = 'http://localhost:5000/api';
     let hasLoadedGlobally = false;
 
     // --- NOTIFICATION SYSTEM ---
@@ -329,117 +479,192 @@
       return diffHours < 24; // Treat items created in last 24h as 'new'
     }
 
+    // ==========================================================
+    // COUNTER SYSTEM (polling + unseen tracking)
+    // ==========================================================
+    const lastSeenBookingsKey = 'lastSeenBookings';
+    const lastSeenMessagesKey = 'lastSeenMessages';
+    const lastSeenReviewsKey = 'lastSeenReviews';
+
+    function ensureLastSeenInitialized() {
+      const now = Date.now();
+      if (!localStorage.getItem(lastSeenBookingsKey)) localStorage.setItem(lastSeenBookingsKey, String(now));
+      if (!localStorage.getItem(lastSeenMessagesKey)) localStorage.setItem(lastSeenMessagesKey, String(now));
+      if (!localStorage.getItem(lastSeenReviewsKey)) localStorage.setItem(lastSeenReviewsKey, String(now));
+    }
+
+    function getLastSeenMs(key) {
+      const raw = localStorage.getItem(key);
+      const n = raw ? Number(raw) : Date.now();
+      return Number.isFinite(n) ? n : Date.now();
+    }
+
+    function setLastSeenNow(key) {
+      localStorage.setItem(key, String(Date.now()));
+    }
+
+    function countUnseen(items, lastSeenMs) {
+      if (!Array.isArray(items)) return 0;
+      return items.filter((item) => {
+        const t = item?.createdAt ? new Date(item.createdAt).getTime() : 0;
+        return Number.isFinite(t) && t > lastSeenMs;
+      }).length;
+    }
+
     // --- GLOBAL LOADING TO SET BADGES ---
     async function initNotifications() {
-        // Fetch all in background to populate bubbles
-        try {
-            const opts = { headers: { 'Authorization': `Bearer ${token}` } };
-            
-            const [bRes, mRes, rRes] = await Promise.all([
-                fetch(`${API_URL}/bookings`, opts),
-                fetch(`${API_URL}/contact`, opts),
-                fetch(`${API_URL}/reviews`, opts)
-            ]);
+      return pollNewData();
+    }
 
-            if (bRes.ok) {
-                const b = await bRes.json();
-                const pendingCount = b.filter(x => x.status === 'pending').length;
-                updateBadge('badge-bookings', pendingCount);
-            }
-            if (mRes.ok) {
-                const m = await mRes.json();
-                const newMsgs = m.filter(x => isRecent(x.createdAt)).length;
-                updateBadge('badge-messages', newMsgs);
-            }
-            if (rRes.ok) {
-                const r = await rRes.json();
-                const newRevs = r.filter(x => isRecent(x.createdAt)).length;
-                updateBadge('badge-reviews', newRevs);
-            }
-            hasLoadedGlobally = true;
-        } catch(e) { } // silent fail on background sync
+    // Poll all counter data without reloading sections
+    async function pollNewData() {
+      try {
+        const opts = { headers: { 'Authorization': `Bearer ${token}` } };
+
+        const [bRes, mRes, rRes] = await Promise.all([
+          fetch(`${API_URL}/bookings`, opts),
+          fetch(`${API_URL}/contact`, opts),
+          fetch(`${API_URL}/reviews/all`, opts)
+        ]);
+
+        if (bRes.status === 401 || mRes.status === 401) return logout();
+
+        if (bRes.ok) {
+          const b = await bRes.json();
+          updateBadge('badge-bookings', countUnseen(b, getLastSeenMs(lastSeenBookingsKey)));
+        }
+        if (mRes.ok) {
+          const m = await mRes.json();
+          updateBadge('badge-messages', countUnseen(m, getLastSeenMs(lastSeenMessagesKey)));
+        }
+        if (rRes.ok) {
+          const r = await rRes.json();
+          updateBadge('badge-reviews', countUnseen(r, getLastSeenMs(lastSeenReviewsKey)));
+        }
+
+        hasLoadedGlobally = true;
+      } catch (_) {
+        // FAILSAFE: silent ignore
+      }
     }
 
     // --- TAB SWITCHING ---
     function switchSection(sectionId, btnElement) {
       document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-      
+
       document.getElementById(sectionId).classList.add('active');
       if (btnElement) btnElement.classList.add('active');
 
-      if (sectionId === 'bookings') fetchBookings();
-      if (sectionId === 'messages') fetchMessages();
-      if (sectionId === 'reviews') fetchReviews();
+      if (sectionId === 'bookings') {
+        setLastSeenNow(lastSeenBookingsKey);
+        updateBadge('badge-bookings', 0);
+        fetchBookings();
+      }
+      if (sectionId === 'messages') {
+        setLastSeenNow(lastSeenMessagesKey);
+        updateBadge('badge-messages', 0);
+        fetchMessages();
+      }
+      if (sectionId === 'reviews') {
+        setLastSeenNow(lastSeenReviewsKey);
+        updateBadge('badge-reviews', 0);
+        fetchReviews();
+      }
     }
 
     // --- PASSWORD MANAGEMENT ---
     async function changePassword() {
-        const current = document.getElementById('currentPwd').value;
-        const newP = document.getElementById('newPwd').value;
-        const alertBox = document.getElementById('pwd-alert');
-        
-        if (!current || !newP) {
-            alertBox.style.display = 'block';
-            alertBox.style.backgroundColor = 'var(--warning)';
-            alertBox.textContent = 'Please fill out both fields';
-            return;
-        }
-        
+      const current = document.getElementById('currentPwd').value;
+      const newP = document.getElementById('newPwd').value;
+      const alertBox = document.getElementById('pwd-alert');
+
+      if (!current || !newP) {
         alertBox.style.display = 'block';
-        alertBox.style.backgroundColor = 'var(--muted)';
-        alertBox.textContent = 'Updating...';
+        alertBox.style.backgroundColor = 'var(--warning)';
+        alertBox.textContent = 'Please fill out both fields';
+        return;
+      }
 
-        try {
-            const res = await fetch(`${API_URL}/admin/change-password`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({ currentPassword: current, newPassword: newP })
-            });
-            const data = await res.json();
-            
-            if (res.status === 401 && !data.error) return logout(); // Core token failure
+      alertBox.style.display = 'block';
+      alertBox.style.backgroundColor = 'var(--muted)';
+      alertBox.textContent = 'Updating...';
 
-            if (res.ok) {
-                alertBox.style.backgroundColor = 'var(--success)';
-                alertBox.textContent = 'Password updated successfully!';
-                document.getElementById('currentPwd').value = '';
-                document.getElementById('newPwd').value = '';
-            } else {
-                alertBox.style.backgroundColor = 'var(--danger)';
-                alertBox.textContent = data.error || 'Update failed';
-            }
-        } catch(e) {
-            alertBox.style.backgroundColor = 'var(--danger)';
-            alertBox.textContent = 'Network error. Ensure server is active.';
+      try {
+        const res = await fetch(`${API_URL}/admin/change-password`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ currentPassword: current, newPassword: newP })
+        });
+        const data = await res.json();
+
+        if (res.status === 401 && !data.error) return logout(); // Core token failure
+
+        if (res.ok) {
+          alertBox.style.backgroundColor = 'var(--success)';
+          alertBox.textContent = 'Password updated successfully!';
+          document.getElementById('currentPwd').value = '';
+          document.getElementById('newPwd').value = '';
+        } else {
+          alertBox.style.backgroundColor = 'var(--danger)';
+          alertBox.textContent = data.error || 'Update failed';
         }
+      } catch (e) {
+        alertBox.style.backgroundColor = 'var(--danger)';
+        alertBox.textContent = 'Network error. Ensure server is active.';
+      }
+    }
+
+    // --- BACKUP DOWNLOADS ---
+    async function downloadBackup(format) {
+      try {
+        const url = `${API_URL}/export/all?format=${encodeURIComponent(format)}`;
+        const res = await fetch(url, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (res.status === 401) return logout();
+        if (!res.ok) return alert('Download failed');
+
+        const blob = await res.blob();
+        const objectUrl = URL.createObjectURL(blob);
+
+        const a = document.createElement('a');
+        a.href = objectUrl;
+        a.download = format === 'pdf' ? 'backup.pdf' : 'backup.json';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(objectUrl);
+      } catch (e) {
+        alert('Network error');
+      }
     }
 
     // --- REUSABLE SECURE FETCH FUNCTION ---
     async function fetchData(endpoint, containerId, renderCallback) {
       const container = document.getElementById(containerId);
       container.innerHTML = '<div class="loading">Loading...</div>';
-      
+
       try {
         const response = await fetch(`${API_URL}${endpoint}`, {
-            headers: { 'Authorization': `Bearer ${token}` }
+          headers: { 'Authorization': `Bearer ${token}` }
         });
-        
+
         if (response.status === 401) return logout(); // Kick out invalid tokens
 
         const data = await response.json();
-        
+
         if (!Array.isArray(data)) {
-            container.innerHTML = `<div class="loading" style="color: red;">Error: Invalid data received</div>`;
-            return;
+          container.innerHTML = `<div class="loading" style="color: red;">Error: Invalid data received</div>`;
+          return;
         }
 
         if (data.length === 0) {
-            container.innerHTML = '<div class="loading">No records found.</div>';
-            return;
+          container.innerHTML = '<div class="loading">No records found.</div>';
+          return;
         }
 
         renderCallback(data, container);
@@ -457,10 +682,10 @@
       try {
         const start = new Date(`${b.date}T${b.time || '00:00'}:00`);
         const end = new Date(start.getTime() + (60 * 60 * 1000));
-        const formatDt = (d) => isNaN(d) ? '' : d.toISOString().replace(/-|:|\.\d\d\d/g, ''); 
+        const formatDt = (d) => isNaN(d) ? '' : d.toISOString().replace(/-|:|\.\d\d\d/g, '');
         const s = formatDt(start), e = formatDt(end);
-        if(!s) return '#';
-        
+        if (!s) return '#';
+
         return `https://www.google.com/calendar/render?action=TEMPLATE&text=Ride Booking: ${b.name}&dates=${s}/${e}&details=Pickup: ${b.pickup}%0ADropoff: ${b.dropoff}`;
       } catch (err) { return '#'; }
     }
@@ -470,23 +695,23 @@
       try {
         const res = await fetch(`${API_URL}/book/${id}`, {
           method: 'PATCH',
-          headers: { 
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
           },
           body: JSON.stringify({ status: newStatus })
         });
-        
+
         if (res.status === 401) return logout();
 
         if (res.ok) {
-            const data = await res.json().catch(() => ({}));
-            if (newStatus === 'completed' && data.reviewCode) {
-              const booking = data.booking || {};
-              cacheReviewCode(booking._id || id, data.reviewCode);
-            }
-            fetchBookings();
-            initNotifications(); // refresh badges
+          const data = await res.json().catch(() => ({}));
+          if (newStatus === 'completed' && data.reviewCode) {
+            const booking = data.booking || {};
+            cacheReviewCode(booking._id || id, data.reviewCode);
+          }
+          fetchBookings();
+          initNotifications(); // refresh badges
         } else alert('Update failed');
       } catch (e) { alert('Network error'); }
     }
@@ -573,13 +798,13 @@
 
     function renderBookings(bookings, container) {
       container.innerHTML = '';
-      
+
       const pendingCount = bookings.filter(b => b.status === 'pending').length;
       if (hasLoadedGlobally) updateBadge('badge-bookings', pendingCount);
 
       // Sort and group
-      bookings.sort((a,b) => new Date(`${a.date}T${a.time||'00:00'}`) - new Date(`${b.date}T${b.time||'00:00'}`));
-      
+      bookings.sort((a, b) => new Date(`${a.date}T${a.time || '00:00'}`) - new Date(`${b.date}T${b.time || '00:00'}`));
+
       const grouped = {};
       bookings.forEach(b => {
         const d = b.date || 'Unknown';
@@ -875,13 +1100,12 @@
 
     function renderMessages(messages, container) {
       container.innerHTML = '';
-      
-      const newMsgs = messages.filter(x => isRecent(x.createdAt)).length;
-      if (hasLoadedGlobally) updateBadge('badge-messages', newMsgs);
+      const seenAt = getLastSeenMs(lastSeenMessagesKey);
 
       messages.forEach(msg => {
         const dateStr = msg.createdAt ? new Date(msg.createdAt).toLocaleDateString() : 'Unknown Date';
-        const isNew = isRecent(msg.createdAt);
+        const createdMs = msg?.createdAt ? new Date(msg.createdAt).getTime() : 0;
+        const isNew = Number.isFinite(createdMs) && createdMs > seenAt;
 
         container.innerHTML += `
           <div class="card" style="border-left-color: var(--primary)">
@@ -907,16 +1131,15 @@
 
     function renderReviews(reviews, container) {
       container.innerHTML = '';
-
-      const newRevs = reviews.filter(x => isRecent(x.createdAt)).length;
-      if (hasLoadedGlobally) updateBadge('badge-reviews', newRevs);
+      const seenAt = getLastSeenMs(lastSeenReviewsKey);
 
       reviews.forEach(rev => {
         const dateStr = rev.createdAt ? new Date(rev.createdAt).toLocaleDateString() : 'Unknown Date';
         const stars = '★'.repeat(rev.rating || 5) + '☆'.repeat(5 - (rev.rating || 5));
-        const isNew = isRecent(rev.createdAt);
+        const createdMs = rev?.createdAt ? new Date(rev.createdAt).getTime() : 0;
+        const isNew = Number.isFinite(createdMs) && createdMs > seenAt;
         const approved = !!rev.isApproved;
-        
+
         container.innerHTML += `
           <div class="card" style="border-left-color: ${approved ? 'var(--success)' : 'var(--danger)'}">
             <div class="card-header">
@@ -982,7 +1205,10 @@
     }
 
     // Init
+    ensureLastSeenInitialized();
     initNotifications().then(() => fetchBookings());
+    setInterval(pollNewData, 5000);
   </script>
 </body>
+
 </html>
